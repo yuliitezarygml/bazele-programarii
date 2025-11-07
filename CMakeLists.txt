@@ -6,7 +6,9 @@ add_executable(varianta5 "lab 1/Varianta 5 .cpp"
         "lab 1/varianta 9.cpp"
         "lab 2/17.cpp"
         "lab 2/15.cpp"
-        "lab 2/13.cpp")
+        "lab 2/13.cpp"
+        "lab3/ex 2.cpp"
+        "lab3/ex 2 case.cpp")
 add_executable(varianta6 "lab 1/Varianta 6 .cpp")
 
 # Alias: rulează 'untitled' dar construiește varianta6
