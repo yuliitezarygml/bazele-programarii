@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where g++ gcc cl)",
+      "Read(//c/MinGW/**)",
+      "Read(//c/msys64/mingw64/**)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/ProgramData/mingw64/mingw64/**)",
+      "Read(//c//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Read(//c/Users/Administrator/AppData/Local/Microsoft/WinGet/**)",
+      "Read(//c/Users/yuliitezary/AppData/Local/Microsoft/WinGet/**)",
+      "Read(//c/Users/**)",
+      "Bash(cmd /c 'call \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\VC\\\\Auxiliary\\\\Build\\\\vcvars64.bat\" >nul && cl.exe /nologo /Zi /EHsc /std:c++17 /Fe:\"Bp 2-Lab-1-ex-16.exe\" \"Bp 2-Lab-1-ex-16.cpp\"')",
+      "Bash(winget --version)",
+      "Bash(winget search *)",
+      "Bash(winget install *)",
+      "Bash(grep -E \"^\\(g\\\\+\\\\+|gcc|gdb\\)\\\\.exe$\")",
+      "Bash(\"C:/Users/Administrator/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/g++.exe\" --version)",
+      "Bash(\"C:/Users/Administrator/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/g++.exe\" -g -std=c++17 \"Bp 2-Lab-1-ex-16.cpp\" -o \"Bp 2-Lab-1-ex-16.exe\")",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" status)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" remote -v)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" branch -a)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" log --oneline -10)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" diff --stat .vscode/)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" add .vscode/c_cpp_properties.json .vscode/launch.json .vscode/settings.json .vscode/tasks.json)",
+      "Bash(git -C c:/Users/Administrator/Desktop/bazele-programarii-master commit -m ' *)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" push origin main)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" fetch origin)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" log --oneline origin/main -5)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" rebase origin/main)",
+      "Bash(git -C \"c:/Users/Administrator/Desktop/bazele-programarii-master\" rebase --abort)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Administrator\\Desktop\\bazele-programarii-master\\.git"
+    ]
+  }
+}
