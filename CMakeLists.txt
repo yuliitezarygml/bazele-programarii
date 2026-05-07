@@ -20,3 +20,6 @@ add_executable(bp2_lab3_ex14 bp2-lab3/Bp2-Lab3-ex14.cpp)
 add_executable(bp2_lab4_ex8 bp2-lab4/Bp2-Lab4-ex8.cpp)
 add_executable(bp2_lab4_ex15 bp2-lab4/Bp2-Lab4-ex15.cpp)
 add_executable(bp2_lab4_ex20 bp2-lab4/Bp2-Lab4-ex20.cpp)
+
+# Individual work - Greedy method
+add_executable(bp2_individual_greedy bp2-individual-greedy/delivery_optimization.cpp)
