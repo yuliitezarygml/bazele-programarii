@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/bp2_lab3_ex7.dir/link.d "CMakeFiles/bp2_lab3_ex7.dir/bp2-lab3/Bp2-Lab3-ex7.cpp.o" -o bp2_lab3_ex7

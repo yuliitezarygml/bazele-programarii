@@ -1,0 +1,9 @@
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab1_ex16.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab2_ex16.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab2_ex17.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab2_ex18.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab3_ex7.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab3_ex10.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/bp2_lab3_ex14.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/edit_cache.dir
+/home/yuliitezary/Документы/bazele-programarii-master/build/CMakeFiles/rebuild_cache.dir

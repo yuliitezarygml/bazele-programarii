@@ -1,0 +1,13 @@
+{
+  "profile": "openai",
+  "env": {
+    "OPENAI_BASE_URL": "https://open.sinkdev.deb/v1",
+    "OPENAI_MODEL": "kr/claude-sonnet-4.5",
+    "OPENAI_API_FORMAT": "chat_completions",
+    "OPENAI_AUTH_HEADER": "sk-8628868fb5793a79-13eccd-814900e1",
+    "OPENAI_AUTH_SCHEME": "raw",
+    "OPENAI_AUTH_HEADER_VALUE": "sk-8628868fb5793a79-13eccd-814900e1",
+    "OPENAI_API_KEY": "sk-12f32a90c77f339b-24db87-7ec39e5e"
+  },
+  "createdAt": "2026-05-07T06:51:11.122Z"
+}
