@@ -1,27 +1,54 @@
-// Полная система управления бинарным деревом поиска (BST)
-// Включает: вставку, удаление (3 случая), поиск, все виды обхода, статистику, проверку баланса
+/*
+Problema 20: Sistem complet de gestionare a arborelui binar de căutare (BST)
+
+Cerință:
+Creați un program interactiv pentru lucrul cu arborele binar de căutare (BST).
+Programul trebuie să suporte următoarele operații:
+
+1. Inserarea nodului - adăugarea unei noi valori cu păstrarea proprietății BST
+2. Ștergerea nodului - trei cazuri:
+   - Nod frunză (fără copii) - ștergem direct
+   - Nod cu un copil - înlocuim nodul cu copilul său
+   - Nod cu doi copii - înlocuim cu inorder successor (minimul din subarborele drept)
+3. Căutarea nodului - verificarea prezenței valorii în arbore
+4. Parcurgerile arborelui:
+   - Inordine (stânga-rădăcină-dreapta) - afișare sortată
+   - Preordine (rădăcină-stânga-dreapta) - pentru copierea structurii
+   - Postordine (stânga-dreapta-rădăcină) - pentru ștergerea arborelui
+   - Pe niveluri (BFS) - parcurgere în lățime folosind coadă
+5. Statistici:
+   - Înălțimea arborelui
+   - Numărul de noduri
+   - Valoarea minimă și maximă
+   - Verificarea echilibrului (diferența înălțimilor subarborilor ≤ 1)
+
+Interfață:
+- Meniu cu 12 opțiuni
+- Introducere interactivă a comenzilor
+- Verificarea corectitudinii operațiilor (ștergere din arbore gol etc.)
+*/
 
 #include <iostream>
 #include <algorithm>
 #include <queue>
 
 // ============================================================================
-// КЛАСС БИНАРНОГО ДЕРЕВА ПОИСКА
+// CLASA ARBORE BINAR DE CĂUTARE
 // ============================================================================
 
 class BST {
 private:
     struct Node {
-        int data;       // Значение узла
-        Node* left;     // Левый ребенок
-        Node* right;    // Правый ребенок
+        int data;       // Valoarea nodului
+        Node* left;     // Copilul stâng
+        Node* right;    // Copilul drept
 
         Node(int val) : data(val), left(nullptr), right(nullptr) {}
     };
 
-    Node* root;  // Корень дерева
+    Node* root;  // Rădăcina arborelui
 
-    // Вставка узла в BST (рекурсивно)
+    // Inserarea nodului în BST (recursiv)
     Node* insertRec(Node* node, int val) {
         if (node == nullptr) {
             return new Node(val);
@@ -36,7 +63,7 @@ private:
         return node;
     }
 
-    // Поиск узла по значению
+    // Căutarea nodului după valoare
     Node* searchRec(Node* node, int val) {
         if (node == nullptr || node->data == val) {
             return node;
@@ -48,7 +75,7 @@ private:
         return searchRec(node->right, val);
     }
 
-    // Найти минимальный узел (самый левый)
+    // Găsirea nodului minim (cel mai din stânga)
     Node* findMin(Node* node) {
         while (node && node->left != nullptr) {
             node = node->left;
@@ -56,27 +83,27 @@ private:
         return node;
     }
 
-    // Удаление узла (3 случая: лист, один ребенок, два ребенка)
+    // Ștergerea nodului (3 cazuri: frunză, un copil, doi copii)
     Node* deleteRec(Node* node, int val) {
         if (node == nullptr) {
             return node;
         }
 
-        // Поиск узла для удаления
+        // Căutarea nodului de șters
         if (val < node->data) {
             node->left = deleteRec(node->left, val);
         } else if (val > node->data) {
             node->right = deleteRec(node->right, val);
         } else {
-            // Узел найден - выполняем удаление
+            // Nodul găsit - efectuăm ștergerea
 
-            // Случай 1: Узел-лист (без детей)
+            // Cazul 1: Nod frunză (fără copii)
             if (node->left == nullptr && node->right == nullptr) {
                 delete node;
                 return nullptr;
             }
 
-            // Случай 2: Узел с одним ребенком
+            // Cazul 2: Nod cu un copil
             if (node->left == nullptr) {
                 Node* temp = node->right;
                 delete node;
@@ -88,17 +115,17 @@ private:
                 return temp;
             }
 
-            // Случай 3: Узел с двумя детьми
-            // Находим inorder successor (минимум в правом поддереве)
+            // Cazul 3: Nod cu doi copii
+            // Găsim inorder successor (minimul din subarborele drept)
             Node* temp = findMin(node->right);
-            node->data = temp->data;  // Копируем значение
-            node->right = deleteRec(node->right, temp->data);  // Удаляем successor
+            node->data = temp->data;  // Copiem valoarea
+            node->right = deleteRec(node->right, temp->data);  // Ștergem successor
         }
 
         return node;
     }
 
-    // Обход inorder (левый - корень - правый) → отсортированный вывод
+    // Parcurgerea inordine (stânga - rădăcină - dreapta) → afișare sortată
     void inorderRec(Node* node) {
         if (node != nullptr) {
             inorderRec(node->left);
@@ -107,7 +134,7 @@ private:
         }
     }
 
-    // Обход preorder (корень - левый - правый) → копирование структуры
+    // Parcurgerea preordine (rădăcină - stânga - dreapta) → copierea structurii
     void preorderRec(Node* node) {
         if (node != nullptr) {
             std::cout << node->data << " ";
@@ -116,7 +143,7 @@ private:
         }
     }
 
-    // Обход postorder (левый - правый - корень) → удаление дерева
+    // Parcurgerea postordine (stânga - dreapta - rădăcină) → ștergerea arborelui
     void postorderRec(Node* node) {
         if (node != nullptr) {
             postorderRec(node->left);
@@ -125,7 +152,7 @@ private:
         }
     }
 
-    // Вычисление высоты дерева
+    // Calcularea înălțimii arborelui
     int heightRec(Node* node) {
         if (node == nullptr) {
             return 0;
@@ -133,7 +160,7 @@ private:
         return 1 + std::max(heightRec(node->left), heightRec(node->right));
     }
 
-    // Подсчет всех узлов
+    // Numărarea tuturor nodurilor
     int countNodesRec(Node* node) {
         if (node == nullptr) {
             return 0;
@@ -141,7 +168,7 @@ private:
         return 1 + countNodesRec(node->left) + countNodesRec(node->right);
     }
 
-    // Проверка баланса дерева (разница высот ≤ 1)
+    // Verificarea echilibrului arborelui (diferența înălțimilor ≤ 1)
     bool isBalancedRec(Node* node) {
         if (node == nullptr) {
             return true;
@@ -157,7 +184,7 @@ private:
         return isBalancedRec(node->left) && isBalancedRec(node->right);
     }
 
-    // Освобождение памяти
+    // Eliberarea memoriei
     void destroyTree(Node* node) {
         if (node != nullptr) {
             destroyTree(node->left);
@@ -236,7 +263,7 @@ public:
         return isBalancedRec(root);
     }
 
-    // Обход по уровням (BFS - Breadth-First Search)
+    // Parcurgerea pe niveluri (BFS - Breadth-First Search)
     void levelOrder() {
         if (root == nullptr) {
             std::cout << "Arborele este gol!" << std::endl;
@@ -269,7 +296,7 @@ public:
 };
 
 // ============================================================================
-// МЕНЮ И ГЛАВНАЯ ФУНКЦИЯ
+// MENIU ȘI FUNCȚIA PRINCIPALĂ
 // ============================================================================
 
 void afiseazaMeniu() {

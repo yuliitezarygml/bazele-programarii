@@ -1,26 +1,48 @@
-// Игра "Красная гусыня" (Gâsca Roșie) - симуляция карточной игры с использованием очередей
-// Правила: два игрока кладут карты на стол, при совпадении цвета игрок забирает все карты со стола
+/*
+Problema 14: Jocul "Gâsca Roșie"
+
+Cerință:
+Doi jucători joacă un joc de cărți, folosind un pachet de 16 cărți (câte 8 cărți fiecare).
+Cărțile au valori de la 1 la 8 și aparțin la patru culori:
+- Inima (roșu)
+- Romb (roșu)
+- Trefla (negru)
+- Pica (negru)
+
+Regulile jocului:
+1. Jucătorii pun pe rând câte o carte pe masă
+2. Dacă culorile cărților coincid (ambele roșii sau ambele negre):
+   - Jucătorul care a pus a doua carte ia toate cărțile de pe masă
+   - Cărțile luate se adaugă la sfârșitul pachetului său
+3. Dacă culorile nu coincid - cărțile rămân pe masă
+4. Jocul continuă până când unul dintre jucători rămâne fără cărți
+5. Câștigă jucătorul care mai are cărți
+
+Implementare:
+- Se folosesc trei cozi (FIFO): pachetul jucătorului 1, pachetul jucătorului 2, cărțile de pe masă
+- Operații: adăugare la sfârșitul cozii, eliminare de la început, mutarea întregii cozi
+*/
 
 #include <iostream>
 #include <string>
 using namespace std;
 
 // ============================================================================
-// СТРУКТУРА УЗЛА ОЧЕРЕДИ (КАРТА)
+// STRUCTURA NODULUI COZII (CARTE)
 // ============================================================================
 
 struct nod {
-    int valoare;      // Значение карты (1-8)
-    string suit;      // Масть: Inima(червы), Romb(бубны), Trefla(трефы), Pica(пики)
-    string culoare;   // Цвет: rosie(красная) или neagra(черная)
-    nod *urm;         // Указатель на следующую карту
+    int valoare;      // Valoarea cărții (1-8)
+    string suit;      // Culoarea: Inima, Romb, Trefla, Pica
+    string culoare;   // Culoare: rosie (roșu) sau neagra (negru)
+    nod *urm;         // Pointer către următoarea carte
 };
 
 // ============================================================================
-// ОПЕРАЦИИ С ОЧЕРЕДЬЮ
+// OPERAȚII CU COADA
 // ============================================================================
 
-// Добавить карту в конец очереди
+// Adăugarea cărții la sfârșitul cozii
 void adauga_sfarsit(nod *&prim, nod *&ultim, int val, string s, string c) {
     nod *p = new nod;
     p->valoare = val;
@@ -36,7 +58,7 @@ void adauga_sfarsit(nod *&prim, nod *&ultim, int val, string s, string c) {
     }
 }
 
-// Удалить первую карту из очереди
+// Eliminarea primei cărți din coadă
 void scoate_primul(nod *&prim, nod *&ultim) {
     if (prim == nullptr) {
         return;
@@ -52,7 +74,7 @@ void scoate_primul(nod *&prim, nod *&ultim) {
     delete temp;
 }
 
-// Переместить все карты со стола в пакет игрока
+// Mutarea tuturor cărților de pe masă în pachetul jucătorului
 void muta_masa_la_pachet(nod *&prim_masa, nod *&ultim_masa, nod *&prim_pachet, nod *&ultim_pachet) {
     if (prim_masa == nullptr) {
         return;
@@ -69,7 +91,7 @@ void muta_masa_la_pachet(nod *&prim_masa, nod *&ultim_masa, nod *&prim_pachet, n
     prim_masa = ultim_masa = nullptr;
 }
 
-// Вывести все карты в очереди
+// Afișarea tuturor cărților din coadă
 void afisare(nod *prim) {
     if (prim == nullptr) {
         cout << "Pachetul este gol." << endl;
@@ -84,7 +106,7 @@ void afisare(nod *prim) {
     cout << endl;
 }
 
-// Подсчитать количество карт в очереди
+// Numărarea cărților din coadă
 int numarare(nod *prim) {
     int count = 0;
     nod *curent = prim;
@@ -96,21 +118,21 @@ int numarare(nod *prim) {
 }
 
 // ============================================================================
-// ГЛАВНАЯ ФУНКЦИЯ - ИГРОВОЙ ЦИКЛ
+// FUNCȚIA PRINCIPALĂ - CICLUL DE JOC
 // ============================================================================
 
 int main() {
-    // Очереди для двух игроков
-    nod *prim1 = nullptr, *ultim1 = nullptr;  // Пакет игрока 1
-    nod *prim2 = nullptr, *ultim2 = nullptr;  // Пакет игрока 2
-    nod *prim_masa = nullptr, *ultim_masa = nullptr;  // Карты на столе
+    // Cozile pentru cei doi jucători
+    nod *prim1 = nullptr, *ultim1 = nullptr;  // Pachetul jucătorului 1
+    nod *prim2 = nullptr, *ultim2 = nullptr;  // Pachetul jucătorului 2
+    nod *prim_masa = nullptr, *ultim_masa = nullptr;  // Cărțile de pe masă
 
     cout << "=== JOCUL GÂSCA ROȘIE ===" << endl;
     cout << "Regulile: Doi jucători pun câte o carte pe masă." << endl;
     cout << "Dacă culorile coincid, jucătorul ia toate cărțile de pe masă.\n" << endl;
 
-    // Инициализация пакетов игроков (пример из PDF)
-    // Игрок 1: 8 карт
+    // Inițializarea pachetelor jucătorilor (exemplu din PDF)
+    // Jucătorul 1: 8 cărți
     adauga_sfarsit(prim1, ultim1, 1, "Inima", "rosie");
     adauga_sfarsit(prim1, ultim1, 2, "Romb", "rosie");
     adauga_sfarsit(prim1, ultim1, 3, "Trefla", "neagra");
@@ -120,7 +142,7 @@ int main() {
     adauga_sfarsit(prim1, ultim1, 7, "Trefla", "neagra");
     adauga_sfarsit(prim1, ultim1, 8, "Pica", "neagra");
 
-    // Игрок 2: 8 карт
+    // Jucătorul 2: 8 cărți
     adauga_sfarsit(prim2, ultim2, 1, "Trefla", "neagra");
     adauga_sfarsit(prim2, ultim2, 2, "Pica", "neagra");
     adauga_sfarsit(prim2, ultim2, 3, "Inima", "rosie");
@@ -136,28 +158,28 @@ int main() {
     cout << "\nPachetul inițial al jucătorului 2 (" << numarare(prim2) << " cărți):" << endl;
     afisare(prim2);
 
-    // Игровой цикл
+    // Ciclul de joc
     int runda = 1;
     while (prim1 != nullptr && prim2 != nullptr) {
         cout << "\n--- Runda " << runda << " ---" << endl;
 
-        // Игрок 1 кладет карту на стол
+        // Jucătorul 1 pune o carte pe masă
         cout << "Jucătorul 1 pune: " << prim1->valoare << " " << prim1->suit << " (" << prim1->culoare << ")" << endl;
         adauga_sfarsit(prim_masa, ultim_masa, prim1->valoare, prim1->suit, prim1->culoare);
         string culoare1 = prim1->culoare;
         scoate_primul(prim1, ultim1);
 
-        // Игрок 2 кладет карту на стол
+        // Jucătorul 2 pune o carte pe masă
         cout << "Jucătorul 2 pune: " << prim2->valoare << " " << prim2->suit << " (" << prim2->culoare << ")" << endl;
         adauga_sfarsit(prim_masa, ultim_masa, prim2->valoare, prim2->suit, prim2->culoare);
         string culoare2 = prim2->culoare;
         scoate_primul(prim2, ultim2);
 
-        // Проверка совпадения цветов
+        // Verificarea coinciderii culorilor
         if (culoare1 == culoare2) {
             cout << ">>> Culorile coincid! ";
 
-            // Определяем победителя раунда (последний положивший карту того же цвета)
+            // Determinăm câștigătorul rundei (ultimul care a pus cartea de aceeași culoare)
             if (culoare2 == "rosie") {
                 cout << "Jucătorul 2 ia toate cărțile de pe masă!" << endl;
                 muta_masa_la_pachet(prim_masa, ultim_masa, prim2, ultim2);
@@ -175,14 +197,14 @@ int main() {
 
         runda++;
 
-        // Ограничение на количество раундов для предотвращения бесконечного цикла
+        // Limită de runde pentru prevenirea buclei infinite
         if (runda > 50) {
             cout << "\nJocul s-a terminat după 50 de runde (limită de siguranță)." << endl;
             break;
         }
     }
 
-    // Определение победителя
+    // Determinarea câștigătorului
     cout << "\n=== REZULTATUL FINAL ===" << endl;
     if (prim1 == nullptr && prim2 == nullptr) {
         cout << "Remiză! Ambii jucători au rămas fără cărți." << endl;
@@ -194,7 +216,7 @@ int main() {
         cout << "Cărți rămase jucătorului 1: " << numarare(prim1) << endl;
     }
 
-    // Освобождение памяти
+    // Eliberarea memoriei
     while (prim1 != nullptr) scoate_primul(prim1, ultim1);
     while (prim2 != nullptr) scoate_primul(prim2, ultim2);
     while (prim_masa != nullptr) scoate_primul(prim_masa, ultim_masa);

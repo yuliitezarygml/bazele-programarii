@@ -1,49 +1,65 @@
-// Бинарное дерево поиска (BST) - вычисление суммы всех узлов
-// BST свойство: левое поддерево < корень < правое поддерево
+/*
+Problema 8: Calcularea sumei tuturor nodurilor din arborele binar de căutare (BST)
+
+Cerință:
+Se dă un arbore binar de căutare (BST). Este necesar:
+1. Construirea BST din numerele introduse de utilizator
+2. Calcularea sumei tuturor nodurilor arborelui
+3. Afișarea arborelui în ordine sortată (parcurgere inordine)
+
+Proprietățile BST:
+- Pentru fiecare nod: toate valorile din subarborele stâng < valoarea nodului < toate valorile din subarborele drept
+- Parcurgerea inordine (stânga-rădăcină-dreapta) dă o secvență sortată
+
+Algoritmul de calculare a sumei:
+- Parcurgem recursiv arborele
+- Suma = valoarea nodului curent + suma subarborelui stâng + suma subarborelui drept
+- Cazul de bază: arborele gol are suma 0
+*/
 
 #include <iostream>
 
 // ============================================================================
-// КЛАСС БИНАРНОГО ДЕРЕВА ПОИСКА
+// CLASA ARBORE BINAR DE CĂUTARE
 // ============================================================================
 
 class BST {
 private:
     struct Node {
-        int data;       // Значение узла
-        Node* left;     // Левый ребенок
-        Node* right;    // Правый ребенок
+        int data;       // Valoarea nodului
+        Node* left;     // Copilul stâng
+        Node* right;    // Copilul drept
 
         Node(int val) : data(val), left(nullptr), right(nullptr) {}
     };
 
-    Node* root;  // Корень дерева
+    Node* root;  // Rădăcina arborelui
 
-    // Вставка узла в BST (рекурсивно)
+    // Inserarea nodului în BST (recursiv)
     Node* insertRec(Node* node, int val) {
         if (node == nullptr) {
-            return new Node(val);  // Создаем новый узел
+            return new Node(val);  // Creăm un nod nou
         }
 
         if (val < node->data) {
-            node->left = insertRec(node->left, val);   // Идем влево
+            node->left = insertRec(node->left, val);   // Mergem la stânga
         } else if (val > node->data) {
-            node->right = insertRec(node->right, val); // Идем вправо
+            node->right = insertRec(node->right, val); // Mergem la dreapta
         }
 
         return node;
     }
 
-    // Вычисление суммы всех узлов (рекурсивно)
+    // Calcularea sumei tuturor nodurilor (recursiv)
     int sumRec(Node* node) {
         if (node == nullptr) {
-            return 0;  // Пустое дерево = сумма 0
+            return 0;  // Arborele gol = suma 0
         }
-        // Сумма = текущий узел + сумма левого + сумма правого
+        // Suma = nodul curent + suma stângă + suma dreaptă
         return node->data + sumRec(node->left) + sumRec(node->right);
     }
 
-    // Обход inorder (левый - корень - правый) → отсортированный вывод
+    // Parcurgerea inordine (stânga - rădăcină - dreapta) → afișare sortată
     void inorderRec(Node* node) {
         if (node != nullptr) {
             inorderRec(node->left);
@@ -52,7 +68,7 @@ private:
         }
     }
 
-    // Освобождение памяти
+    // Eliberarea memoriei
     void destroyTree(Node* node) {
         if (node != nullptr) {
             destroyTree(node->left);
@@ -86,7 +102,7 @@ public:
 };
 
 // ============================================================================
-// ГЛАВНАЯ ФУНКЦИЯ
+// FUNCȚIA PRINCIPALĂ
 // ============================================================================
 
 int main() {

@@ -1,11 +1,31 @@
-// Система управления товарами с двусвязным списком
-// Товары хранятся отсортированными по коду, автоматически удаляются при нулевом остатке
+/*
+Problema 10: Sistem de gestionare a mărfurilor (listă dublu înlănțuită)
+
+Cerință:
+Creați un sistem de evidență a mărfurilor în depozit, folosind o listă dublu înlănțuită cu noduri santinelă.
+Fiecare marfă are: cod, denumire, cantitate în stoc, preț.
+
+Operații necesare:
+1. Adăugarea mărfii (cu sortare după cod)
+2. Ștergerea mărfii după cod
+3. Căutarea mărfii după cod
+4. Modificarea datelor mărfii
+5. Intrarea mărfii în depozit (creșterea cantității)
+6. Ieșirea mărfii din depozit (scăderea cantității)
+7. Afișarea tuturor mărfurilor (ordine directă și inversă)
+8. Ștergerea automată a mărfii la atingerea stocului zero
+
+Particularități de implementare:
+- Listă dublu înlănțuită cu noduri santinelă (sant1, sant2)
+- Mărfurile sunt sortate automat după cod la inserare
+- Abordare orientată pe obiecte cu clasele Articol și Lista_articol
+*/
 
 #include <iostream>
 #include <string>
 
 // ============================================================================
-// КЛАСС ТОВАРА
+// CLASA ARTICOL
 // ============================================================================
 
 class Articol {
@@ -19,7 +39,7 @@ public:
     Articol(int cod, const std::string& nume, int stoc, double pret)
         : cod(cod), nume(nume), stoc(stoc), pret(pret) {}
 
-    // Геттеры и сеттеры
+    // Getteri și setteri
     int getCod() const { return cod; }
     void setCod(int cod) { this->cod = cod; }
 
@@ -32,7 +52,7 @@ public:
     double getPret() const { return pret; }
     void setPret(double pret) { this->pret = pret; }
 
-    // Перегрузка оператора вывода
+    // Supraîncărcarea operatorului de afișare
     friend std::ostream& operator<<(std::ostream& os, const Articol& a) {
         os << "Cod: " << a.cod << " | Nume: " << a.nume
            << " | Stoc: " << a.stoc << " | Pret: " << a.pret << " lei";
@@ -41,25 +61,25 @@ public:
 };
 
 // ============================================================================
-// КЛАСС ДВУСВЯЗНОГО СПИСКА
+// CLASA LISTĂ DUBLU ÎNLĂNȚUITĂ
 // ============================================================================
 
 class Lista_articol {
 private:
     struct Node {
-        Articol* inf;   // Указатель на товар
-        Node* next;     // Следующий узел
-        Node* prev;     // Предыдущий узел
+        Articol* inf;   // Pointer către articol
+        Node* next;     // Nodul următor
+        Node* prev;     // Nodul precedent
 
         Node() : inf(nullptr), next(nullptr), prev(nullptr) {}
         Node(Articol* articol) : inf(articol), next(nullptr), prev(nullptr) {}
     };
 
-    Node* sant1;  // Сторожевой узел (начало)
-    Node* sant2;  // Сторожевой узел (конец)
+    Node* sant1;  // Nod santinelă (început)
+    Node* sant2;  // Nod santinelă (sfârșit)
 
 public:
-    // Конструктор: создает пустой список с двумя сторожевыми узлами
+    // Constructor: creează listă goală cu două noduri santinelă
     Lista_articol() {
         sant1 = new Node();
         sant2 = new Node();
@@ -67,7 +87,7 @@ public:
         sant2->prev = sant1;
     }
 
-    // Деструктор: освобождает всю память
+    // Destructor: eliberează toată memoria
     ~Lista_articol() {
         Node* curent = sant1->next;
         while (curent != sant2) {
@@ -80,12 +100,12 @@ public:
         delete sant2;
     }
 
-    // Проверка: пуст ли список?
+    // Verificare: este lista goală?
     bool esteGoala() const {
         return sant1->next == sant2;
     }
 
-    // Вывод списка от начала к концу
+    // Afișarea listei de la început la sfârșit
     void afisare() const {
         if (esteGoala()) {
             std::cout << "Lista este vida." << std::endl;
@@ -102,7 +122,7 @@ public:
         std::cout << "---" << std::endl;
     }
 
-    // Вывод списка от конца к началу
+    // Afișarea listei de la sfârșit la început
     void afisareInversa() const {
         if (esteGoala()) {
             std::cout << "Lista este vida." << std::endl;
@@ -117,9 +137,9 @@ public:
         std::cout << "---" << std::endl;
     }
 
-    // Добавить товар (с сортировкой по коду)
+    // Adăugarea articolului (cu sortare după cod)
     void adauga(Articol* a) {
-        // Проверка на дубликат кода
+        // Verificare pentru cod duplicat
         Node* curent = sant1->next;
         while (curent != sant2) {
             if (curent->inf->getCod() == a->getCod()) {
@@ -130,13 +150,13 @@ public:
             curent = curent->next;
         }
 
-        // Найти позицию для вставки (список отсортирован по коду)
+        // Găsirea poziției pentru inserare (lista sortată după cod)
         curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() < a->getCod()) {
             curent = curent->next;
         }
 
-        // Вставить новый узел перед найденной позицией
+        // Inserarea nodului nou înainte de poziția găsită
         Node* newNode = new Node(a);
         newNode->next = curent;
         newNode->prev = curent->prev;
@@ -146,7 +166,7 @@ public:
         std::cout << "Articolul cu codul " << a->getCod() << " a fost adaugat." << std::endl;
     }
 
-    // Удалить товар по коду
+    // Ștergerea articolului după cod
     void sterge(int cod) {
         Node* curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() != cod) {
@@ -157,7 +177,7 @@ public:
             return;
         }
 
-        // Удалить узел из списка
+        // Eliminarea nodului din listă
         curent->prev->next = curent->next;
         curent->next->prev = curent->prev;
         delete curent->inf;
@@ -165,7 +185,7 @@ public:
         std::cout << "Articolul cu codul " << cod << " a fost sters." << std::endl;
     }
 
-    // Поступление товара на склад
+    // Intrarea mărfii în depozit
     void intrareStoc(int cod, int cantitate) {
         Node* curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() != cod) {
@@ -179,7 +199,7 @@ public:
         std::cout << "Stoc actualizat: " << *(curent->inf) << std::endl;
     }
 
-    // Продажа/расход товара (автоматическое удаление при нулевом остатке)
+    // Ieșirea mărfii din depozit (ștergere automată la stoc zero)
     void iesireStoc(int cod, int cantitate) {
         Node* curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() != cod) {
@@ -197,7 +217,7 @@ public:
 
         curent->inf->setStoc(curent->inf->getStoc() - cantitate);
 
-        // Автоматическое удаление при нулевом остатке
+        // Ștergere automată la stoc zero
         if (curent->inf->getStoc() == 0) {
             curent->prev->next = curent->next;
             curent->next->prev = curent->prev;
@@ -209,7 +229,7 @@ public:
         }
     }
 
-    // Изменить название и/или цену товара
+    // Modificarea denumirii și/sau prețului articolului
     void modifica(int cod, const std::string& numeNou, double pretNou) {
         Node* curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() != cod) {
@@ -228,7 +248,7 @@ public:
         std::cout << "Articol modificat: " << *(curent->inf) << std::endl;
     }
 
-    // Найти товар по коду
+    // Căutarea articolului după cod
     void cauta(int cod) const {
         Node* curent = sant1->next;
         while (curent != sant2 && curent->inf->getCod() != cod) {
@@ -243,7 +263,7 @@ public:
 };
 
 // ============================================================================
-// ГЛАВНАЯ ФУНКЦИЯ
+// FUNCȚIA PRINCIPALĂ
 // ============================================================================
 
 int main() {

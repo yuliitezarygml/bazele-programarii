@@ -1,25 +1,44 @@
-// Бинарное дерево поиска (BST) - подсчет узлов-листьев
-// Лист = узел без детей (left == nullptr && right == nullptr)
+/*
+Problema 15: Numărarea nodurilor frunză din arborele binar de căutare (BST)
+
+Cerință:
+Se dă un arbore binar de căutare (BST). Este necesar:
+1. Construirea BST din numerele introduse de utilizator
+2. Numărarea nodurilor frunză (noduri fără copii)
+3. Numărarea nodurilor interne (noduri cu cel puțin un copil)
+4. Calcularea înălțimii arborelui
+5. Afișarea tuturor nodurilor frunză
+
+Definiții:
+- Frunză (frunză) - nod fără copii (left == nullptr && right == nullptr)
+- Nod intern - nod cu cel puțin un copil
+- Înălțimea arborelui - lungimea maximă a căii de la rădăcină la frunză
+
+Algoritmul de numărare a frunzelor:
+- Dacă nodul este gol → returnăm 0
+- Dacă nodul nu are copii → este frunză, returnăm 1
+- Altfel → numărăm recursiv frunzele în subarborii stâng și drept
+*/
 
 #include <iostream>
 
 // ============================================================================
-// КЛАСС БИНАРНОГО ДЕРЕВА ПОИСКА
+// CLASA ARBORE BINAR DE CĂUTARE
 // ============================================================================
 
 class BST {
 private:
     struct Node {
-        int data;       // Значение узла
-        Node* left;     // Левый ребенок
-        Node* right;    // Правый ребенок
+        int data;       // Valoarea nodului
+        Node* left;     // Copilul stâng
+        Node* right;    // Copilul drept
 
         Node(int val) : data(val), left(nullptr), right(nullptr) {}
     };
 
-    Node* root;  // Корень дерева
+    Node* root;  // Rădăcina arborelui
 
-    // Вставка узла в BST (рекурсивно)
+    // Inserarea nodului în BST (recursiv)
     Node* insertRec(Node* node, int val) {
         if (node == nullptr) {
             return new Node(val);
@@ -34,31 +53,31 @@ private:
         return node;
     }
 
-    // Подсчет узлов-листьев (без детей)
+    // Numărarea nodurilor frunză (fără copii)
     int countLeavesRec(Node* node) {
         if (node == nullptr) {
             return 0;
         }
 
-        // Если у узла нет детей → это лист
+        // Dacă nodul nu are copii → este frunză
         if (node->left == nullptr && node->right == nullptr) {
             return 1;
         }
 
-        // Иначе считаем листья в поддеревьях
+        // Altfel numărăm frunzele în subarbori
         return countLeavesRec(node->left) + countLeavesRec(node->right);
     }
 
-    // Подсчет внутренних узлов (с хотя бы одним ребенком)
+    // Numărarea nodurilor interne (cu cel puțin un copil)
     int countInternalRec(Node* node) {
         if (node == nullptr || (node->left == nullptr && node->right == nullptr)) {
-            return 0;  // Пустой узел или лист
+            return 0;  // Nod gol sau frunză
         }
 
         return 1 + countInternalRec(node->left) + countInternalRec(node->right);
     }
 
-    // Обход inorder (отсортированный вывод)
+    // Parcurgerea inordine (afișare sortată)
     void inorderRec(Node* node) {
         if (node != nullptr) {
             inorderRec(node->left);
@@ -67,21 +86,21 @@ private:
         }
     }
 
-    // Вывод всех листьев
+    // Afișarea tuturor frunzelor
     void printLeavesRec(Node* node) {
         if (node == nullptr) {
             return;
         }
 
         if (node->left == nullptr && node->right == nullptr) {
-            std::cout << node->data << " ";  // Это лист
+            std::cout << node->data << " ";  // Aceasta este frunză
         }
 
         printLeavesRec(node->left);
         printLeavesRec(node->right);
     }
 
-    // Вычисление высоты дерева
+    // Calcularea înălțimii arborelui
     int heightRec(Node* node) {
         if (node == nullptr) {
             return 0;
@@ -89,7 +108,7 @@ private:
         return 1 + std::max(heightRec(node->left), heightRec(node->right));
     }
 
-    // Освобождение памяти
+    // Eliberarea memoriei
     void destroyTree(Node* node) {
         if (node != nullptr) {
             destroyTree(node->left);
@@ -135,7 +154,7 @@ public:
 };
 
 // ============================================================================
-// ГЛАВНАЯ ФУНКЦИЯ
+// FUNCȚIA PRINCIPALĂ
 // ============================================================================
 
 int main() {

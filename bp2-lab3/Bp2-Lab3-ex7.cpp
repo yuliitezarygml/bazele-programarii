@@ -1,11 +1,25 @@
-// Сортировка чисел с помощью двух стеков
-// Алгоритм: вставка каждого нового числа в правильную позицию, используя вторую стеку как буфер
+/*
+Problema 7: Sortarea numerelor folosind două stive
+
+Cerință:
+Se dă o secvență de numere întregi. Folosind două stive (structuri LIFO),
+sortați numerele în ordine crescătoare. Prima stivă conține numerele inițiale,
+a doua este folosită ca auxiliară pentru rearanjarea elementelor.
+
+Algoritm:
+1. Citim primul număr și îl punem în prima stivă
+2. Pentru fiecare număr următor:
+   - Dacă numărul este mai mare decât vârful primei stive → îl adăugăm direct
+   - Altfel: mutăm toate elementele mai mici în a doua stivă,
+     inserăm noul număr, returnăm elementele înapoi
+3. În rezultat, prima stivă conține secvența sortată (descrescător de la vârf)
+*/
 
 #include <iostream>
 #include <climits>
 
 // ============================================================================
-// КЛАСС СТЕКА (LIFO - Last In, First Out)
+// CLASA STIVĂ (LIFO - Last In, First Out)
 // ============================================================================
 
 class Stiva {
@@ -16,7 +30,7 @@ private:
         Node(int val) : value(val), next(nullptr) {}
     };
 
-    Node* top;  // Вершина стека
+    Node* top;  // Vârful stivei
 
 public:
     Stiva() : top(nullptr) {}
@@ -27,14 +41,14 @@ public:
         }
     }
 
-    // Добавить элемент на вершину стека
+    // Adaugă element pe vârful stivei
     void adaugare(int val) {
         Node* newNode = new Node(val);
         newNode->next = top;
         top = newNode;
     }
 
-    // Удалить и вернуть элемент с вершины
+    // Elimină și returnează elementul de pe vârf
     int eliminare() {
         if (isEmpty()) {
             std::cout << "Eroare: Stiva este goala!" << std::endl;
@@ -47,19 +61,19 @@ public:
         return val;
     }
 
-    // Посмотреть значение на вершине (без удаления)
+    // Vizualizează valoarea de pe vârf (fără eliminare)
     int varf() const {
         if (isEmpty())
             return INT_MAX;
         return top->value;
     }
 
-    // Проверить, пуст ли стек
+    // Verifică dacă stiva este goală
     bool isEmpty() const {
         return top == nullptr;
     }
 
-    // Вывести все элементы стека
+    // Afișează toate elementele stivei
     void afisare() const {
         if (isEmpty()) {
             std::cout << "Stiva este vida." << std::endl;
@@ -77,12 +91,12 @@ public:
 
 
 int main() {
-    Stiva stiva1;  // Основной стек (будет содержать отсортированные числа)
-    Stiva stiva2;  // Вспомогательный стек (буфер для перестановки)
+    Stiva stiva1;  // Stiva principală (va conține numerele sortate)
+    Stiva stiva2;  // Stiva auxiliară (buffer pentru rearanjare)
 
     int numar, raspuns;
 
-    // Ввод первого числа
+    // Introducerea primului număr
     std::cout << "Introduceti primul numar: ";
     std::cin >> numar;
     stiva1.adaugare(numar);
@@ -90,26 +104,26 @@ int main() {
     std::cout << "Mai adaugati un numar? (1 - Da, 0 - Nu): ";
     std::cin >> raspuns;
 
-    // Цикл ввода и сортировки
+    // Ciclul de introducere și sortare
     while (raspuns == 1) {
         std::cout << "Introduceti numarul: ";
         std::cin >> numar;
 
-        // Случай 1: Новое число больше вершины → просто добавляем
+        // Cazul 1: Numărul nou este mai mare decât vârful → adăugăm direct
         if (stiva1.varf() > numar) {
             stiva1.adaugare(numar);
         }
-        // Случай 2: Нужно найти правильную позицию
+        // Cazul 2: Trebuie să găsim poziția corectă
         else {
-            // Переносим все меньшие элементы в stiva2
+            // Mutăm toate elementele mai mici în stiva2
             while (!stiva1.isEmpty() && stiva1.varf() < numar) {
                 stiva2.adaugare(stiva1.eliminare());
             }
 
-            // Вставляем новое число
+            // Inserăm noul număr
             stiva1.adaugare(numar);
 
-            // Возвращаем элементы обратно
+            // Returnăm elementele înapoi
             while (!stiva2.isEmpty()) {
                 stiva1.adaugare(stiva2.eliminare());
             }
@@ -119,7 +133,7 @@ int main() {
         std::cin >> raspuns;
     }
 
-    // Вывод отсортированного результата
+    // Afișarea rezultatului sortat
     std::cout << "\nSirul ordonat crescator:" << std::endl;
     stiva1.afisare();
 
