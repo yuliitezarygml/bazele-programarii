@@ -1,0 +1,16 @@
+0.0 0.0
+1.2 0.8 Str. Independenței 7 (Centru) 1
+2.5 1.5 Bd. Ștefan cel Mare 45 (Centru) 2
+0.9 1.3 Str. Vasile Alecsandri 12 (Centru) 1
+3.8 2.1 Cartier 8, Bloc 15 Ap. 23 2
+4.2 2.8 Cartier 8, Bloc 22 Ap. 45 3
+3.5 1.7 Cartier 8, Bloc 8 Ap. 12 2
+5.1 3.2 Cartier 6, Bloc 3 Ap. 67 2
+5.5 3.8 Cartier 6, Bloc 11 Ap. 34 1
+6.2 2.9 Cartier 9, Bloc 5 Ap. 89 3
+6.8 3.5 Cartier 9, Bloc 18 Ap. 56 2
+2.1 4.5 Autogara Nordului (Severny Avtovokzal) 1
+1.5 3.8 Str. Decebal 78 (lângă Autogară) 2
+4.5 4.2 Str. Calea Ieșilor 156 3
+3.2 3.5 Str. Pushkin 34 2
+1.8 2.1 Piața Centrală, Magazin Nr. 5 1
